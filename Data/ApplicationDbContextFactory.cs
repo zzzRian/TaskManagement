@@ -8,10 +8,12 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
     {
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
+        var connectionString =
+            "Server=localhost;Port=3306;Database=TaskManagementDb;User=root;Password=CHANGE_ME;";
+
         optionsBuilder.UseMySql(
-            "Server=localhost;Port=3306;Database=TaskManagementDb;User=root;Password=CHANGE_ME;",
-            new MySqlServerVersion(new Version(8, 0, 42))
-        );
+            connectionString,
+            ServerVersion.AutoDetect(connectionString));
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }
