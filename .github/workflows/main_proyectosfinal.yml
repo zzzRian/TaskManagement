@@ -47,6 +47,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
+          path: published
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -56,10 +57,9 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_68852A45438F40639EBFFFF58C3AFCF0 }}
 
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'ProyectosFinal'
-          slot-name: 'Production'
-          package: .
+          app-name: ProyectosFinal
+          slot-name: Production
+          package: published
           
