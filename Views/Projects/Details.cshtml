@@ -1,0 +1,30 @@
+@model Project
+@{ var users = (IEnumerable<ApplicationUser>)ViewBag.AllUsers; var done = Model.Tasks.Count(t=>t.Status==TaskManagement.Models.Entities.TaskStatus.Completed); var prog = Model.Tasks.Any()? (done*100/Model.Tasks.Count):0; }
+<h2>@Model.Name <span class="badge bg-info">@Model.Status</span></h2>
+<p class="text-muted">@Model.Description</p>
+<div class="progress mb-3" style="height:24px"><div class="progress-bar" style="width:@prog%">@prog%</div></div>
+<div class="row g-3">
+<div class="col-md-7"><div class="card p-3"><h5>Tareas</h5>
+<a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@Model.Id" class="btn btn-sm btn-primary mb-2">+ Tarea</a>
+<table class="table table-sm"><thead><tr><th>Título</th><th>Asignado</th><th>Estado</th><th>Vence</th></tr></thead><tbody>
+@foreach (var t in Model.Tasks) {
+<tr><td><a asp-controller="Tasks" asp-action="Details" asp-route-id="@t.Id">@t.Title</a></td><td>@t.AssignedTo?.FullName</td><td>@t.Status</td><td>@t.DueDate.ToShortDateString()</td></tr>
+}
+</tbody></table></div></div>
+<div class="col-md-5"><div class="card p-3"><h5>Miembros</h5>
+@if (User.IsInRole("Admin")) {
+<form asp-action="AddMember" method="post" class="d-flex gap-2 mb-3">@Html.AntiForgeryToken()
+<input type="hidden" name="projectId" value="@Model.Id"/>
+<select name="userId" class="form-select"><option value="">--</option>@foreach (var u in users){<option value="@u.Id">@u.FullName</option>}</select>
+<button class="btn btn-sm btn-primary">+</button></form>
+}
+<ul class="list-group">
+@foreach (var m in Model.Members) {
+<li class="list-group-item d-flex justify-content-between">@m.User?.FullName <small class="text-muted">@m.Role</small>
+@if (User.IsInRole("Admin")) {
+<form asp-action="RemoveMember" method="post" class="d-inline">@Html.AntiForgeryToken()<input type="hidden" name="memberId" value="@m.Id"/><input type="hidden" name="projectId" value="@Model.Id"/><button class="btn btn-sm btn-link text-danger">X</button></form>
+}
+</li>
+}
+</ul></div></div>
+</div>

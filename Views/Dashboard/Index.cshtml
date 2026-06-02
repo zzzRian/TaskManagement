@@ -1,0 +1,35 @@
+@model DashboardViewModel
+@{ ViewData["Title"]="Dashboard"; }
+<h2 class="mb-4">Dashboard</h2>
+<div class="row g-3 mb-4">
+  <div class="col-md-3"><div class="card metric-card p-3"><div class="text-muted small">Proyectos activos</div><div class="h3">@Model.ActiveProjects</div></div></div>
+  <div class="col-md-3"><div class="card metric-card p-3" style="border-color:#198754"><div class="text-muted small">Tareas completadas</div><div class="h3">@Model.CompletedTasks</div></div></div>
+  <div class="col-md-3"><div class="card metric-card p-3" style="border-color:#ffc107"><div class="text-muted small">En progreso</div><div class="h3">@Model.InProgressTasks</div></div></div>
+  <div class="col-md-3"><div class="card metric-card p-3" style="border-color:#dc3545"><div class="text-muted small">Vencidas</div><div class="h3">@Model.OverdueTasks</div></div></div>
+</div>
+<div class="row g-3">
+  <div class="col-lg-6"><div class="card p-3"><h6>Avance de tareas</h6><canvas id="taskChart"></canvas></div></div>
+  <div class="col-lg-6"><div class="card p-3"><h6>Tareas recientes</h6>
+    <table class="table table-sm"><thead><tr><th>Título</th><th>Proyecto</th><th>Estado</th></tr></thead><tbody>
+    @foreach (var t in Model.RecentTasks) {
+      <tr><td><a asp-controller="Tasks" asp-action="Details" asp-route-id="@t.Id">@t.Title</a></td><td>@t.Project?.Name</td><td><span class="badge bg-secondary">@t.Status</span></td></tr>
+    }
+    </tbody></table>
+  </div></div>
+</div>
+@if (User.IsInRole("Admin") && Model.RecentActivity.Any()) {
+<div class="card p-3 mt-3"><h6>Actividad reciente</h6>
+<ul class="list-group list-group-flush">
+@foreach (var a in Model.RecentActivity) {
+<li class="list-group-item small">@a.Timestamp.ToString("g") · @a.UserName · @a.Action @a.Entity</li>
+}
+</ul></div>
+}
+@section Scripts {
+<script>
+new Chart(document.getElementById('taskChart'),{type:'doughnut',
+ data:{labels:['Pendientes','En Progreso','Completadas','Vencidas'],
+ datasets:[{data:[@Model.PendingTasks,@Model.InProgressTasks,@Model.CompletedTasks,@Model.OverdueTasks],
+ backgroundColor:['#6c757d','#0d6efd','#198754','#dc3545']}]}});
+</script>
+}

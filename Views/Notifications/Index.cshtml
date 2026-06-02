@@ -1,0 +1,10 @@
+@model IEnumerable<Notification>
+<h2>Notificaciones</h2>
+<ul class="list-group">
+@foreach (var n in Model) {
+<li class="list-group-item d-flex justify-content-between @(n.IsRead?"":"fw-bold")">
+<div><div>@n.Title</div><small class="text-muted">@n.Message</small></div>
+<small>@n.CreatedAt.ToString("g")</small>
+</li>
+}
+</ul>

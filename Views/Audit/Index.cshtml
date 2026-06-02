@@ -1,0 +1,11 @@
+@model IEnumerable<AuditLog>
+<h2>Auditoría</h2>
+<form method="get" class="row g-2 mb-3">
+<div class="col-auto"><input name="userId" value="@ViewBag.UserId" placeholder="UserId" class="form-control"/></div>
+<div class="col-auto"><input name="from" type="date" value="@(ViewBag.From?.ToString("yyyy-MM-dd"))" class="form-control"/></div>
+<div class="col-auto"><input name="to" type="date" value="@(ViewBag.To?.ToString("yyyy-MM-dd"))" class="form-control"/></div>
+<div class="col-auto"><button class="btn btn-primary">Filtrar</button></div>
+</form>
+<table class="table table-sm bg-white"><thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Entidad</th><th>IP</th></tr></thead><tbody>
+@foreach (var a in Model) {<tr><td>@a.Timestamp.ToString("g")</td><td>@a.UserName</td><td>@a.Action</td><td>@a.Entity</td><td>@a.IpAddress</td></tr>}
+</tbody></table>

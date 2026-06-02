@@ -1,0 +1,38 @@
+# Build
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# VS Code
+.vscode/
+
+# Rider
+.idea/
+
+# Logs
+*.log
+
+# NuGet
+*.nupkg
+
+# Configuración local
+appsettings.Development.json
+
+# User Secrets
+secrets.json
+
+# Sistema operativo
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Archivos temporales de publicación
+publish/
+
+# Carpeta de uploads
+wwwroot/uploads/*
+!wwwroot/uploads/.gitkeep

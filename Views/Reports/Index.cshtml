@@ -1,0 +1,17 @@
+@model ReportViewModel
+<h2>Reportes</h2>
+<div class="mb-3">
+<a asp-action="ExportPdf" class="btn btn-danger btn-sm"><i class="bi bi-file-pdf"></i> PDF</a>
+<a asp-action="ExportExcel" class="btn btn-success btn-sm"><i class="bi bi-file-excel"></i> Excel</a>
+</div>
+<div class="row g-3 mb-3">
+<div class="col-md-2"><div class="card p-3"><div class="small text-muted">Total</div><div class="h4">@Model.TotalTasks</div></div></div>
+<div class="col-md-2"><div class="card p-3"><div class="small text-muted">Completadas</div><div class="h4 text-success">@Model.CompletedTasks</div></div></div>
+<div class="col-md-2"><div class="card p-3"><div class="small text-muted">En Progreso</div><div class="h4 text-primary">@Model.InProgressTasks</div></div></div>
+<div class="col-md-2"><div class="card p-3"><div class="small text-muted">Pendientes</div><div class="h4">@Model.PendingTasks</div></div></div>
+<div class="col-md-2"><div class="card p-3"><div class="small text-muted">Vencidas</div><div class="h4 text-danger">@Model.OverdueTasks</div></div></div>
+<div class="col-md-2"><div class="card p-3"><div class="small text-muted">Proyectos</div><div class="h4">@Model.TotalProjects</div></div></div>
+</div>
+<table class="table bg-white"><thead><tr><th>Título</th><th>Proyecto</th><th>Asignado</th><th>Estado</th><th>Vence</th></tr></thead><tbody>
+@foreach (var t in Model.Tasks) {<tr><td>@t.Title</td><td>@t.Project?.Name</td><td>@t.AssignedTo?.FullName</td><td>@t.Status</td><td>@t.DueDate.ToShortDateString()</td></tr>}
+</tbody></table>

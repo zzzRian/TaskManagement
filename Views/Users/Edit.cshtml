@@ -1,0 +1,8 @@
+@model UserViewModel
+<h2>Editar Usuario</h2>
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="card p-3" style="max-width:600px">@Html.AntiForgeryToken()
+<div class="mb-3"><label>Nombre</label><input asp-for="FullName" class="form-control"/></div>
+<div class="mb-3"><label>Email</label><input asp-for="Email" class="form-control"/></div>
+<div class="form-check mb-3"><input asp-for="IsActive" class="form-check-input"/><label class="form-check-label">Activo</label></div>
+<button class="btn btn-primary">Guardar</button> <a asp-action="Index" class="btn btn-link">Cancelar</a>
+</form>

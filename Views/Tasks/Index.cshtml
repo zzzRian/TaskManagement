@@ -1,0 +1,13 @@
+@model IEnumerable<TaskItem>
+<div class="d-flex justify-content-between mb-3"><h2>Tareas</h2><a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus"></i> Nueva</a></div>
+<table class="table bg-white"><thead><tr><th>Título</th><th>Proyecto</th><th>Asignado</th><th>Prioridad</th><th>Estado</th><th>Vence</th><th></th></tr></thead><tbody>
+@foreach (var t in Model) {
+<tr><td><a asp-action="Details" asp-route-id="@t.Id">@t.Title</a></td><td>@t.Project?.Name</td><td>@t.AssignedTo?.FullName</td>
+<td><span class="badge bg-warning text-dark">@t.Priority</span></td>
+<td><span class="badge bg-secondary">@t.Status</span></td>
+<td class="@(t.DueDate < DateTime.UtcNow && t.Status!=TaskManagement.Models.Entities.TaskStatus.Completed?"text-danger fw-bold":"")">@t.DueDate.ToShortDateString()</td>
+<td class="text-end"><a asp-action="Edit" asp-route-id="@t.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+<form asp-action="Delete" asp-route-id="@t.Id" method="post" class="d-inline" onsubmit="return confirm('Eliminar?')">@Html.AntiForgeryToken()<button class="btn btn-sm btn-outline-danger">X</button></form>
+</td></tr>
+}
+</tbody></table>

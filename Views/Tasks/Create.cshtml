@@ -1,0 +1,20 @@
+@model TaskViewModel
+<h2>Nueva Tarea</h2>
+<form asp-action="Create" method="post" class="card p-3" style="max-width:800px">@Html.AntiForgeryToken()
+<div class="mb-3"><label>Título</label><input asp-for="Title" class="form-control"/><span asp-validation-for="Title" class="text-danger small"></span></div>
+<div class="mb-3"><label>Descripción</label><textarea asp-for="Description" class="form-control" rows="3"></textarea></div>
+<div class="row">
+<div class="col-md-6 mb-3"><label>Inicio</label><input asp-for="StartDate" type="date" class="form-control"/></div>
+<div class="col-md-6 mb-3"><label>Vence</label><input asp-for="DueDate" type="date" class="form-control"/><span asp-validation-for="DueDate" class="text-danger small"></span></div>
+</div>
+<div class="row">
+<div class="col-md-4 mb-3"><label>Proyecto</label><select asp-for="ProjectId" asp-items="ViewBag.Projects" class="form-select"></select></div>
+<div class="col-md-4 mb-3"><label>Prioridad</label><select asp-for="Priority" class="form-select">@foreach (var p in Enum.GetValues<TaskPriority>()){<option value="@((int)p)">@p</option>}</select></div>
+<div class="col-md-4 mb-3"><label>Estado</label><select asp-for="Status" class="form-select">@foreach (var s in Enum.GetValues<TaskManagement.Models.Entities.TaskStatus>()){<option value="@((int)s)">@s</option>}</select></div>
+</div>
+@if (User.IsInRole("Admin")) {
+<div class="mb-3"><label>Asignado a</label><select asp-for="AssignedToId" asp-items="ViewBag.Users" class="form-select"><option value="">--</option></select></div>
+}
+<div asp-validation-summary="All" class="text-danger small"></div>
+<button class="btn btn-primary">Guardar</button> <a asp-action="Index" class="btn btn-link">Cancelar</a>
+</form>

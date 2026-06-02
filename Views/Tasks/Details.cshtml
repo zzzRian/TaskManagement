@@ -1,0 +1,16 @@
+@model TaskItem
+<h2>@Model.Title</h2>
+<div class="card p-3 mb-3">
+<p>@Model.Description</p>
+<div class="row small">
+<div class="col-md-3"><b>Proyecto:</b> @Model.Project?.Name</div>
+<div class="col-md-3"><b>Asignado:</b> @Model.AssignedTo?.FullName</div>
+<div class="col-md-2"><b>Prioridad:</b> @Model.Priority</div>
+<div class="col-md-2"><b>Estado:</b> @Model.Status</div>
+<div class="col-md-2"><b>Vence:</b> @Model.DueDate.ToShortDateString()</div>
+</div>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-sm mt-3">Editar</a>
+</div>
+<div class="card p-3"><h5>Comentarios</h5>
+@foreach (var c in Model.Comments) {<div class="border-bottom py-2"><b>@c.User?.FullName</b> <small class="text-muted">@c.CreatedAt</small><div>@c.Content</div></div>}
+</div>

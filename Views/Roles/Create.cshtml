@@ -1,0 +1,6 @@
+<h2>Nuevo Rol</h2>
+<form asp-action="Create" method="post" class="card p-3" style="max-width:500px">@Html.AntiForgeryToken()
+<div class="mb-3"><label>Nombre</label><input name="name" class="form-control" required/></div>
+<div class="mb-3"><label>Descripción</label><input name="description" class="form-control"/></div>
+<button class="btn btn-primary">Guardar</button>
+</form>

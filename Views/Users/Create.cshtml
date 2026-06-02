@@ -1,0 +1,11 @@
+@model UserViewModel
+<h2>Nuevo Usuario</h2>
+<form asp-action="Create" method="post" class="card p-3" style="max-width:600px">@Html.AntiForgeryToken()
+<div class="mb-3"><label>Nombre</label><input asp-for="FullName" class="form-control"/></div>
+<div class="mb-3"><label>Email</label><input asp-for="Email" class="form-control"/></div>
+<div class="mb-3"><label>Contraseña</label><input asp-for="Password" type="password" class="form-control"/></div>
+<div class="mb-3"><label>Rol</label><select asp-for="Role" asp-items="ViewBag.Roles" class="form-select"></select></div>
+<div class="form-check mb-3"><input asp-for="IsActive" class="form-check-input"/><label class="form-check-label">Activo</label></div>
+<div asp-validation-summary="All" class="text-danger small"></div>
+<button class="btn btn-primary">Guardar</button> <a asp-action="Index" class="btn btn-link">Cancelar</a>
+</form>

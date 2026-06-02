@@ -1,0 +1,38 @@
+@model Dictionary<TaskManagement.Models.Entities.TaskStatus, List<TaskItem>>
+@{ ViewData["Title"]="Kanban"; }
+<h2>Kanban @(ViewBag.IsGlobal == true ? "Global" : "Personal")</h2>
+@Html.AntiForgeryToken()
+<div class="row g-3 mt-2">
+@foreach (var col in Model) {
+<div class="col-md-3">
+<h6 class="text-center">@col.Key <span class="badge bg-secondary">@col.Value.Count</span></h6>
+<div class="kanban-col" data-status="@((int)col.Key)">
+@foreach (var t in col.Value) {
+<div class="card kanban-card mb-2 p-2" draggable="true" data-id="@t.Id">
+<a asp-controller="Tasks" asp-action="Details" asp-route-id="@t.Id">@t.Title</a>
+<small class="text-muted d-block">@t.Project?.Name</small>
+<small class="badge bg-warning text-dark">@t.Priority</small>
+</div>
+}
+</div>
+</div>
+}
+</div>
+@section Scripts {
+<script>
+document.querySelectorAll('.kanban-card').forEach(c=>{
+ c.addEventListener('dragstart',e=>{e.dataTransfer.setData('id',c.dataset.id);c.classList.add('dragging');});
+ c.addEventListener('dragend',()=>c.classList.remove('dragging'));
+});
+document.querySelectorAll('.kanban-col').forEach(col=>{
+ col.addEventListener('dragover',e=>e.preventDefault());
+ col.addEventListener('drop',async e=>{
+  e.preventDefault();
+  const id=e.dataTransfer.getData('id'); const status=col.dataset.status;
+  const fd=new FormData(); fd.append('id',id); fd.append('status',status);
+  await fetch('/Kanban/Move',{method:'POST',body:fd,headers:{'RequestVerificationToken':getToken()}});
+  location.reload();
+ });
+});
+</script>
+}

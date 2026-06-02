@@ -1,0 +1,19 @@
+@model ProfileViewModel
+<h2>Mi Perfil</h2>
+@if (TempData["msg"]!=null) {<div class="alert alert-info">@TempData["msg"]</div>}
+<div class="row">
+<div class="col-md-6"><form asp-action="Update" method="post" enctype="multipart/form-data" class="card p-3">@Html.AntiForgeryToken()
+@if (!string.IsNullOrEmpty(Model.AvatarUrl)) {<img src="@Model.AvatarUrl" class="rounded-circle mb-3" style="width:100px;height:100px;object-fit:cover"/>}
+<div class="mb-3"><label>Nombre</label><input asp-for="FullName" class="form-control"/></div>
+<div class="mb-3"><label>Email</label><input asp-for="Email" class="form-control"/></div>
+<div class="mb-3"><label>Foto</label><input name="avatar" type="file" class="form-control"/></div>
+<button class="btn btn-primary">Guardar</button>
+</form></div>
+<div class="col-md-6"><form asp-action="ChangePassword" method="post" class="card p-3">@Html.AntiForgeryToken()
+<h5>Cambiar contraseña</h5>
+<div class="mb-3"><label>Actual</label><input name="CurrentPassword" type="password" class="form-control" required/></div>
+<div class="mb-3"><label>Nueva</label><input name="NewPassword" type="password" class="form-control" required/></div>
+<div class="mb-3"><label>Confirmar</label><input name="ConfirmPassword" type="password" class="form-control" required/></div>
+<button class="btn btn-warning">Cambiar</button>
+</form></div>
+</div>
