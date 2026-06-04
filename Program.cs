@@ -75,13 +75,23 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
 
-/*
 using (var scope = app.Services.CreateScope())
 {
-    var sp = scope.ServiceProvider;
-    var db = sp.GetRequiredService<ApplicationDbContext>();
-    await db.Database.MigrateAsync();
-    await DbSeeder.SeedAsync(sp);
+    try
+    {
+        var sp = scope.ServiceProvider;
+        var db = sp.GetRequiredService<ApplicationDbContext>();
+
+        await db.Database.MigrateAsync();
+        await DbSeeder.SeedAsync(sp);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("=================================");
+        Console.WriteLine(ex.ToString());
+        Console.WriteLine("=================================");
+        throw;
+    }
 }
-*/
+
 app.Run();
