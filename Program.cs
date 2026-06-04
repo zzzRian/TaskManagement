@@ -75,6 +75,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
 
+/*
 using (var scope = app.Services.CreateScope())
 {
     var sp = scope.ServiceProvider;
@@ -82,5 +83,5 @@ using (var scope = app.Services.CreateScope())
     await db.Database.MigrateAsync();
     await DbSeeder.SeedAsync(sp);
 }
-
+*/
 app.Run();
